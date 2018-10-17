@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.dao.UserInfoDao">
+
+    <resultMap id="userMap" type="UserInfo" >
+        <id property="uid" column="uid" />
+        <result property="name" column="name" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="salt" column="salt" />
+        <result property="state" column="state" />
+        <collection property="roleList" ofType="com.hu.entity.SysRole" javaType="java.util.ArrayList">
+            <id property="id" column="id" />
+            <result property="role" column="role" />
+            <result property="description" column="description" />
+            <result property="available" column="available" javaType="java.lang.Boolean" />
+            <collection property="permissions" ofType="com.hu.entity.SysPermission"  javaType="java.util.ArrayList">
+                <result property="name" column="name" />
+                <result property="resourceType" column="resource_type" />
+                <result property="url" column="url" />
+                <result property="permission" column="permission" />
+                <result property="parentId" column="parent_id" />
+                <result property="available" column="available" javaType="java.lang.Boolean" />
+            </collection>
+        </collection>
+    </resultMap>
+
+   <select id="findByUsername"  resultMap="userMap">
+       select u.*,r.*,p.* from user_info u LEFT JOIN sys_user_role ur on u.uid = ur.uid
+        LEFT JOIN sys_role r on r.id = ur.role_id
+        LEFT JOIN sys_role_permission rp on r.id = rp.role_id LEFT JOIN sys_permission p on rp.permission_id = p.id  where username = #{username} and u.state = 0
+   </select>
+
+    <update id="updateUser" parameterType="UserInfo" >
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+               name = #{name},
+            </if>
+            <if test="state != null and state != ''">
+               state = #{state},
+            </if>
+            <if test="password != null and password != ''">
+               password = #{password},
+            </if>
+        </trim>
+        where username = #{username}
+    </update>
+</mapper>
