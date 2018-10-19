@@ -1,6 +1,7 @@
 package com.hu.service.impl;
 
 import com.hu.dao.UserInfoDao;
+import com.hu.entity.SysRole;
 import com.hu.entity.UserInfo;
 import com.hu.service.UserInfoService;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -31,6 +33,11 @@ public class UserInfoServiceImpl implements UserInfoService {
             userInfo.setPassword(simpleHash.toString());
         }
         userInfoDao.updateUser(userInfo);
+    }
+
+    @Override
+    public List<Map<String , Object>> findRoles(Integer page , Integer limit) {
+        return userInfoDao.findRoles(page , limit);
     }
 
 }

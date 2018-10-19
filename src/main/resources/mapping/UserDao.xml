@@ -46,4 +46,8 @@
         </trim>
         where username = #{username}
     </update>
+
+    <select id="findRoles" resultType="Map">
+        select id,description,role,available from sys_role limit #{page},#{limit}
+    </select>
 </mapper>
