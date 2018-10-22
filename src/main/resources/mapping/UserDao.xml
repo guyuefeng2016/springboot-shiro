@@ -50,4 +50,36 @@
     <select id="findRoles" resultType="Map">
         select id,description,role,available from sys_role limit #{page},#{limit}
     </select>
-</mapper>
+
+    <insert id="addRole" parameterType="SysRole">
+        insert into sys_role(role,description,available) values(#{role} , #{description} , #{available});
+    </insert>
+
+    <delete id="removeRole">
+        delete from sys_role where id = #{id}
+    </delete>
+
+    <update id="updateRole" parameterType="SysRole">
+        update sys_role
+        <trim prefix="set" suffixOverrides=",">
+            <if test="role != null and role != ''">
+                 role = #{role},
+            </if>
+            <if test="description != null and description != ''">
+                 description = #{description},
+            </if>
+            <if test="available != null">
+                 available = #{available},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="getAllPermission" resultType="SysPermission">
+        select p.* from sys_permission p ;
+    </select>
+
+    <select id="getRolePermission" resultType="SysPermission">
+        select p.* from sys_permission p left join sys_role_permission rp on p.id = rp.permission_id where rp.role_id = #{id}
+    </select>
+ </mapper>

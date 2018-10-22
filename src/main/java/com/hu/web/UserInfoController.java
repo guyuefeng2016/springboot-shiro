@@ -1,6 +1,7 @@
 package com.hu.web;
 
 import com.hu.common.RestResult;
+import com.hu.entity.SysPermission;
 import com.hu.entity.SysRole;
 import com.hu.entity.UserInfo;
 import com.hu.service.UserInfoService;
@@ -71,8 +72,69 @@ public class UserInfoController {
     @ResponseBody
     @RequiresPermissions("userInfo:manageRole")
     public RestResult<Map<String , Object>>  getRoles(Integer page , Integer limit){
-        List<Map<String , Object>> roles = userInfoService.findRoles(page , limit);
+        List<Map<String , Object>> roles = userInfoService.findRoles(page-1 , limit);
         return RestResult.SUCCESS(roles);
     }
+
+    @RequestMapping("/addRole")
+    @ResponseBody
+    @RequiresPermissions("userInfo:manageRole")
+    public RestResult<String> addRole(SysRole role){
+        try {
+            userInfoService.addRole(role);
+            return RestResult.SUCCESS(null,"角色新增成功");
+        } catch (Exception e){
+            return RestResult.ERROR(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/delRole")
+    @ResponseBody
+    @RequiresPermissions("userInfo:manageRole")
+    public RestResult<String> delRole(Integer id){
+        try {
+            userInfoService.removeRole(id);
+            return RestResult.SUCCESS(null,"角色删除成功");
+        } catch (Exception e){
+            return RestResult.ERROR(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/updateRole")
+    @ResponseBody
+    @RequiresPermissions("userInfo:manageRole")
+    public RestResult<String> updateRole(SysRole role){
+        try {
+            userInfoService.updateRole(role);
+            return RestResult.SUCCESS(null,"角色更新成功");
+        } catch (Exception e){
+            return RestResult.ERROR(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/getAllPermission")
+    @ResponseBody
+    @RequiresPermissions("userInfo:manageRole")
+    public RestResult<SysPermission> getAllPermission(){
+        try {
+            List<SysPermission> permissions = userInfoService.getAllPermission();
+            return RestResult.SUCCESS(permissions,"查询所有权限成功");
+        } catch (Exception e){
+            return RestResult.ERROR(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/getRolePermission")
+    @ResponseBody
+    @RequiresPermissions("userInfo:manageRole")
+    public RestResult<SysPermission> getRolePermission(Integer id){
+        try {
+            List<SysPermission> permissions = userInfoService.getRolePermission(id);
+            return RestResult.SUCCESS(permissions,"查询角色权限成功");
+        } catch (Exception e){
+            return RestResult.ERROR(e.getMessage());
+        }
+    }
+
 
 }

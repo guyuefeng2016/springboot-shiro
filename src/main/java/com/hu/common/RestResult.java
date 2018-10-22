@@ -24,7 +24,7 @@ public class RestResult<T> implements Serializable{
     }
 
     public static <T> RestResult<T> SUCCESS(List<T> data,String msg){
-        return new RestResult<>(0,data.size(),msg ,data);
+        return new RestResult<>(0, data != null ? data.size() : 0,msg ,data);
     }
 
     public static <T> RestResult<T> ERROR(String msg){

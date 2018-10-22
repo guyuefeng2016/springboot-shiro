@@ -1,6 +1,7 @@
 package com.hu.service.impl;
 
 import com.hu.dao.UserInfoDao;
+import com.hu.entity.SysPermission;
 import com.hu.entity.SysRole;
 import com.hu.entity.UserInfo;
 import com.hu.service.UserInfoService;
@@ -38,6 +39,31 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public List<Map<String , Object>> findRoles(Integer page , Integer limit) {
         return userInfoDao.findRoles(page , limit);
+    }
+
+    @Override
+    public void addRole(SysRole role) {
+       userInfoDao.addRole(role);
+    }
+
+    @Override
+    public void removeRole(Integer id) {
+        userInfoDao.removeRole(id);
+    }
+
+    @Override
+    public void updateRole(SysRole role) {
+        userInfoDao.updateRole(role);
+    }
+
+    @Override
+    public List<SysPermission> getAllPermission() {
+        return userInfoDao.getAllPermission();
+    }
+
+    @Override
+    public List<SysPermission> getRolePermission(Integer id) {
+        return userInfoDao.getRolePermission(id);
     }
 
 }

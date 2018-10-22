@@ -1,5 +1,6 @@
 package com.hu.service;
 
+import com.hu.entity.SysPermission;
 import com.hu.entity.SysRole;
 import com.hu.entity.UserInfo;
 
@@ -15,4 +16,19 @@ public interface UserInfoService {
 
     /**查询所有的角色信息*/
     List<Map<String , Object>> findRoles(Integer page , Integer limit);
+
+    /**添加角色*/
+    void addRole(SysRole role);
+
+    /**删除角色*/
+    void removeRole(Integer id);
+
+    /**更新角色信息*/
+    void updateRole(SysRole role);
+
+    /**得到所有权限*/
+    List<SysPermission> getAllPermission();
+
+    /**得到某角色所有权限*/
+    List<SysPermission> getRolePermission(Integer id);
 }
